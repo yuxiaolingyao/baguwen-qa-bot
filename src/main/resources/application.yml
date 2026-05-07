@@ -1,0 +1,84 @@
+server:
+  port: 8080
+
+  # 文件上传限制
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+spring:
+  application:
+    name: baguwen-qa-bot
+
+  # MySQL
+  datasource:
+    url: jdbc:mysql://localhost:3306/baguwen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 4
+          min-idle: 1
+
+# ============================================
+# MyBatis-Plus
+# ============================================
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+# ============================================
+# LLM Provider 1: DeepSeek
+# ============================================
+deepseek:
+  api-key: ${DEEPSEEK_API_KEY:xxxxx}
+  base-url: https://api.deepseek.com
+  model-name: deepseek-v4-flash
+  temperature: 0.7
+  max-tokens: 2048
+
+# ============================================
+# LLM Provider 2: 阿里百炼 (DashScope)
+# ============================================
+bailian:
+  api-key: ${BAILIAN_API_KEY:xxxxx}
+  base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  model-name: qwen-plus
+  temperature: 0.7
+  max-tokens: 2048
+
+# ============================================
+# 飞书 Bot 配置
+# ============================================
+feishu:
+  app-id: xxxxx
+  app-secret: xxxxx
+  bot-name: 八股问答Bot
+
+# ============================================
+# PgVector 向量数据库（可选，不可用时自动降级为内存）
+# ============================================
+pgvector:
+  datasource:
+    jdbc-url: jdbc:postgresql://${PG_HOST:localhost}:${PG_PORT:5432}/${PG_DB:baguwen}
+    username: ${PG_USER:baguwen}
+    password: ${PG_PASSWORD:123456}
+    driver-class-name: org.postgresql.Driver
+
+# ============================================
+# 知识库配置
+# ============================================
+knowledge:
+  top-k: 5
+  min-score: 0.0
